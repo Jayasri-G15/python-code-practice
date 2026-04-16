@@ -1,0 +1,1326 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOeQ0cNT2bujZRPL3sKJEF0",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Jayasri-G15/python-code-practice/blob/main/python\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "/*\n",
+        " * Joseph is learning digital logic subject which will be for his next semester.\n",
+        " * He usually tries to solve unit assignment problems before the lecture.\n",
+        " * Today he got one tricky question. The problem statement is “A positive integer has been\n",
+        " * given as an input. Convert decimal value to binary representation.\n",
+        " * Toggle all bits of it after the most significant bit including the most significant bit.\n",
+        " * Print the positive integer value after toggling all bits”.\n",
+        " */"
+      ],
+      "metadata": {
+        "id": "2uHjbn6-XTrc"
+      }
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "dPvsbc0KXLoS",
+        "outputId": "a037f22c-865e-419c-a795-808da312f600"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "10\n",
+            "5\n"
+          ]
+        }
+      ],
+      "source": [
+        "n = int(input())\n",
+        "\n",
+        "binary = bin(n)[2:]\n",
+        "toggled = \"\"\n",
+        "\n",
+        "for bit in binary:\n",
+        "    if bit == '0':\n",
+        "        toggled += '1'\n",
+        "    else:\n",
+        "        toggled += '0'\n",
+        "\n",
+        "print(int(toggled, 2))"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "n = int(input())\n",
+        "\n",
+        "# Step 1: Convert to binary string\n",
+        "s = \"\"\n",
+        "while n > 0:\n",
+        "    temp = n & 1\n",
+        "    s = str(temp) + s\n",
+        "    n = n >> 1\n",
+        "\n",
+        "# Step 2: Toggle and convert to decimal\n",
+        "pow_ = 0\n",
+        "res = 0\n",
+        "\n",
+        "for i in range(len(s) - 1, -1, -1):\n",
+        "    if s[i] == '0':\n",
+        "        res += 2 ** pow_\n",
+        "    pow_ += 1\n",
+        "\n",
+        "print(res)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "fbyJwO0MYGmg",
+        "outputId": "9441d33a-be90-4cfe-9c8f-7a19088102be"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "10\n",
+            "5\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "/*\n",
+        " *  A chocolate factory is packing chocolates into the packets. The chocolate packets here\n",
+        " * represent an array of N number of integer values. The task is to find the empty packets(0) of\n",
+        " * chocolate and push it to the end of the conveyor belt(array). Click here to see solution\n",
+        "Example 1 : N=8 and arr = [4,5,0,1,9,0,5,0].\n",
+        "\n",
+        "There are 3 empty packets in the given set. These 3 empty packets represented as O should be pushed towards the end of the array\n",
+        " */\n"
+      ],
+      "metadata": {
+        "id": "b9eaeNfMXtYd"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "n = int(input())\n",
+        "arr = list(map(int, input().split()))\n",
+        "\n",
+        "count = 0\n",
+        "\n",
+        "# Move non-zero elements forward\n",
+        "for i in range(n):\n",
+        "    if arr[i] != 0:\n",
+        "        arr[count] = arr[i]\n",
+        "        count += 1\n",
+        "\n",
+        "# Fill remaining with zeros\n",
+        "for i in range(count, n):\n",
+        "    arr[i] = 0\n",
+        "\n",
+        "print(*arr)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "1WkRxdO6YHR7",
+        "outputId": "3735f464-2a73-49bf-f462-a3b64ed68050"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "6\n",
+            "0 2 0 1 4 5\n",
+            "2 1 4 5 0 0\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Find all subarrays (continuous elements) whose sum = k (7)"
+      ],
+      "metadata": {
+        "id": "XhYsH_sfdo8q"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "arr = [3, 4, -7, 1, 3, 3, 1, -4]\n",
+        "k = 7\n",
+        "n = len(arr)\n",
+        "\n",
+        "for i in range(n):\n",
+        "    temp = []\n",
+        "    total = 0\n",
+        "\n",
+        "    for j in range(i, n):\n",
+        "        total += arr[j]\n",
+        "        temp.append(arr[j])\n",
+        "\n",
+        "        if total == k:\n",
+        "            print(temp)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "GacGrqtiaGtm",
+        "outputId": "c24609a1-5955-47fe-cf25-b378c3ae8821"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "[3, 4]\n",
+            "[3, 4, -7, 1, 3, 3]\n",
+            "[1, 3, 3]\n",
+            "[3, 3, 1]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "/*\n",
+        " * You are given an array of integers, arr,\n",
+        "and an integer k. Your task is to find and print the maximum number in\n",
+        "each contiguous window of size k.\n",
+        "Sample test case 1:\n",
+        "Input:\n",
+        "arr = [1, 3, -1, -3, 5, 3, 6, 7] k=3\n",
+        "Output:\n",
+        "[3, 3, 5, 5, 6, 7]\n",
+        " */\n"
+      ],
+      "metadata": {
+        "id": "_7JpTE2eeBdB"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "arr = [1, 3, -1, -3, 5, 3, 6, 7]\n",
+        "k = 3\n",
+        "\n",
+        "result = []\n",
+        "\n",
+        "for i in range(len(arr) - k + 1):\n",
+        "    max_val = arr[i]\n",
+        "\n",
+        "    for j in range(i, i + k):\n",
+        "        if arr[j] > max_val:\n",
+        "            max_val = arr[j]\n",
+        "\n",
+        "    result.append(max_val)\n",
+        "\n",
+        "print(result)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "RIcszSqPdjtQ",
+        "outputId": "56af3e13-a7a9-44da-dde0-d2e164f9adb4"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "[3, 3, 5, 5, 6, 7]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "/*\n",
+        " * Given a number N, your task is to calculate and print the sum of the table of N.\n",
+        "Sample test case 1:\n",
+        "Input:\n",
+        "N = 10\n",
+        "ouput: 55 * 10 = 550\n",
+        "550\n",
+        "Sample test case 2:\n",
+        "Input:\n",
+        "N = 68 N * (1-10) -> 55 * 68 = 3740\n",
+        "ouput:\n",
+        "3740\n",
+        " */"
+      ],
+      "metadata": {
+        "id": "WCSaEg8te1RA"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "N = int(input())\n",
+        "\n",
+        "sum_ = 0\n",
+        "\n",
+        "for i in range(1, 11):\n",
+        "    sum_ += N * i\n",
+        "\n",
+        "print(sum_)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "3MJvzRaFela-",
+        "outputId": "2f01c2a0-0ba1-4ef5-f7e6-544d9c8c9764"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "10\n",
+            "550\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "N = int(input())\n",
+        "print(55 * N)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "0AJCU5gRfMKW",
+        "outputId": "c1de9af5-d333-4e92-ebd3-a236ca2905de"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "10\n",
+            "550\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "/*\n",
+        " * Given two integers, a and b, your task is to determine the sum of the cubes of\n",
+        "all numbers in the range from a to b.\n",
+        "sample test case\n",
+        "a = 4\n",
+        "b = 9\n",
+        "output: 1989\n",
+        " */"
+      ],
+      "metadata": {
+        "id": "WtKHTWTlfXT0"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "a = int(input())\n",
+        "b = int(input())\n",
+        "\n",
+        "total = 0\n",
+        "\n",
+        "for i in range(a, b + 1):\n",
+        "    total += i ** 3\n",
+        "\n",
+        "print(total)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "PwhD4ZeYfVSG",
+        "outputId": "7c79b123-0d9e-4232-c458-4c0a9d7ff8e7"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "4\n",
+            "9\n",
+            "1989\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Find all subarrays (continuous) whose sum = 7\n",
+        "👉 Print them AND store them"
+      ],
+      "metadata": {
+        "id": "JdBiuNUyhFqe"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "nums = [3, 4, -7, 1, 3, 3, 1, -4]\n",
+        "target = 7\n",
+        "\n",
+        "result = []\n",
+        "\n",
+        "for i in range(len(nums)):\n",
+        "    temp = []\n",
+        "    total = 0\n",
+        "\n",
+        "    for j in range(i, len(nums)):\n",
+        "        temp.append(nums[j])\n",
+        "        total += nums[j]\n",
+        "\n",
+        "        if total == target:\n",
+        "            print(temp)\n",
+        "            result.append(temp[:])  # copy\n",
+        "\n",
+        "print(result)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "MjAeJ3jkg8D4",
+        "outputId": "d0e0f0da-dd7f-4a3e-c38c-c428c89374ce"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "[3, 4]\n",
+            "[3, 4, -7, 1, 3, 3]\n",
+            "[1, 3, 3]\n",
+            "[3, 3, 1]\n",
+            "[[3, 4], [3, 4, -7, 1, 3, 3], [1, 3, 3], [3, 3, 1]]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "/*\n",
+        " * Problem Statement:\n",
+        "Given a grid of size m*n, let us assume you are starting at (1, 1) and your goal is to reach (m, n).\n",
+        "At any instance, if you are on (x, y), you can either go to (x, y + 1) or (x + 1, y).\n",
+        "Now consider if some obstacles are added to the grids.\n",
+        "How many unique paths would there be? An obstacle and space are marked as 1 and 0 respectively in the grid.\n",
+        "sample test case n=3,m= 3\n",
+        "arr = [\n",
+        "[0 0 0],\n",
+        "[0 1 0],\n",
+        "[0 0 0]\n",
+        "]\n",
+        "output: 2\n",
+        " */"
+      ],
+      "metadata": {
+        "id": "uTTbp979hP_o"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def find_paths(maze, m, n, x, y):\n",
+        "    # invalid cases\n",
+        "    if x >= m or y >= n or maze[x][y] == 1:\n",
+        "        return 0\n",
+        "\n",
+        "    # reached destination\n",
+        "    if x == m - 1 and y == n - 1:\n",
+        "        return 1\n",
+        "\n",
+        "    # move down + move right\n",
+        "    return find_paths(maze, m, n, x + 1, y) + find_paths(maze, m, n, x, y + 1)\n",
+        "\n",
+        "\n",
+        "maze = [\n",
+        "    [0, 0, 0],\n",
+        "    [0, 1, 0],\n",
+        "    [0, 0, 0]\n",
+        "]\n",
+        "\n",
+        "m = 3\n",
+        "n = 3\n",
+        "\n",
+        "print(find_paths(maze, m, n, 0, 0))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "NiS2Mzf2gMlb",
+        "outputId": "79fb8d91-4fd8-4d05-9baf-806787888c7f"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "2\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "/*\n",
+        " * An automobile company manufactures both a two wheeler (TW) and a four wheeler (FW). A\n",
+        "company manager wants to make the production of both types of vehicle according to the\n",
+        "given data below:\n",
+        "\n",
+        "● 1st data, Total number of vehicle (two-wheeler + four-wheeler)=v\n",
+        "\n",
+        "● 2nd data, Total number of wheels = W\n",
+        "The task is to find how many two-wheelers as well as four-wheelers need to manufacture as\n",
+        "per the given data.\n",
+        "\n",
+        " */\n"
+      ],
+      "metadata": {
+        "id": "U7vqjPlrihZt"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "v = 200\n",
+        "w = 540\n",
+        "\n",
+        "x = (4 * v - w) // 2   # 2-wheelers\n",
+        "y = (w - 2 * v) // 2   # 4-wheelers\n",
+        "\n",
+        "print(x, y)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ew2radWHidxN",
+        "outputId": "80ee33eb-b77b-4311-b85d-c756b5cbdd9c"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "130 70\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "/*\n",
+        " * Given a string S(input consisting) of ‘*’ and ‘#’. The length of the string is variable. The task is\n",
+        "to find the minimum number of ‘*’ or ‘#’ to make it a valid string. The string is considered\n",
+        "valid if the number of ‘*’ and ‘#’ are equal. The ‘*’ and ‘#’ can be at any position in the string.\n",
+        "Note : The output will be a positive or negative integer based on number of ‘*’ and ‘#’ in the\n",
+        "input string.\n",
+        "\n",
+        "● (*>#): positive integer\n",
+        "\n",
+        "● (#>*): negative integer\n",
+        "\n",
+        "● (#=*): 0\n",
+        "\n",
+        " */"
+      ],
+      "metadata": {
+        "id": "s_gKH2inj9qF"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "s = input()\n",
+        "\n",
+        "count_star = 0\n",
+        "count_hash = 0\n",
+        "\n",
+        "for ch in s:\n",
+        "    if ch == '*':\n",
+        "        count_star += 1\n",
+        "    elif ch == '#':\n",
+        "        count_hash += 1\n",
+        "\n",
+        "print(count_star - count_hash)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "X6ULUGgXjo9n",
+        "outputId": "7530b746-7962-499e-a84d-1f870aeac668"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "*#**##*\n",
+            "1\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "👉 You have an array of size n\n",
+        "👉 You want to insert a new element at a specific index"
+      ],
+      "metadata": {
+        "id": "9uXpbR2wnanw"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "arr = list(map(int, input().split()))\n",
+        "adder = int(input())\n",
+        "index = int(input())\n",
+        "\n",
+        "arr.insert(index, adder)\n",
+        "\n",
+        "print(arr)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "I2ebJGY7nbGP",
+        "outputId": "46b3bc7c-8348-4be9-a43d-362dd030709a"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "1 2 5 6 7\n",
+            "0\n",
+            "1\n",
+            "[1, 0, 2, 5, 6, 7]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "arr = list(map(int, input().split()))\n",
+        "adder = int(input())\n",
+        "index = int(input())\n",
+        "\n",
+        "arr.append(0)  # increase size\n",
+        "\n",
+        "for i in range(len(arr)-1, index, -1):\n",
+        "    arr[i] = arr[i-1]\n",
+        "\n",
+        "arr[index] = adder\n",
+        "\n",
+        "print(arr)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "TuhGkoG7osWP",
+        "outputId": "1f91d398-e96d-4a07-bac6-8801b512a6d1"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "1 3 4 5  7\n",
+            "0\n",
+            "3\n",
+            "[1, 3, 4, 0, 5, 7]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "classic “subset check” problem using binary search\n",
+        "Check if all elements of arr1 exist in arr2\n",
+        "\n",
+        "👉 If yes → subset\n",
+        "👉 If not → not a subset"
+      ],
+      "metadata": {
+        "id": "5V-nsr9OnbW1"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def bSearch(elem, arr):\n",
+        "    start, end = 0, len(arr) - 1\n",
+        "\n",
+        "    while start <= end:\n",
+        "        mid = (start + end) // 2\n",
+        "\n",
+        "        if arr[mid] == elem:\n",
+        "            return True\n",
+        "        elif arr[mid] < elem:\n",
+        "            start = mid + 1\n",
+        "        else:\n",
+        "            end = mid - 1\n",
+        "\n",
+        "    return False\n",
+        "\n",
+        "\n",
+        "def isSubset(arr1, arr2):\n",
+        "    if len(arr1) > len(arr2):\n",
+        "        return False\n",
+        "\n",
+        "    arr2.sort()\n",
+        "\n",
+        "    for x in arr1:\n",
+        "        if not bSearch(x, arr2):\n",
+        "            return False\n",
+        "\n",
+        "    return True\n",
+        "\n",
+        "\n",
+        "arr1 = [1, 3, 4, 5, 2]\n",
+        "arr2 = [2, 4, 3, 1, 7, 5, 15]\n",
+        "\n",
+        "print(isSubset(arr1, arr2))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "N-oil9ThnbmZ",
+        "outputId": "95ed2e07-f3b9-4df5-9551-5159a44fb3fd"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "True\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "arr1 = [1, 3, 4, 5, 2]\n",
+        "arr2 = [2, 4, 3, 1, 7, 5, 15]\n",
+        "\n",
+        "set2 = set(arr2)\n",
+        "\n",
+        "print(all(x in set2 for x in arr1))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "I-qM-fWWqlRV",
+        "outputId": "53ed5986-530e-4397-9b9b-c98cb24bfdb8"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "True\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Find the average (mean) of all elements"
+      ],
+      "metadata": {
+        "id": "7VwIxV3znb35"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "n = int(input())\n",
+        "arr = list(map(int, input().split()))\n",
+        "\n",
+        "total = sum(arr)\n",
+        "avg = total / n\n",
+        "\n",
+        "print(\"Average:\", avg)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "6EAovK9OncHp",
+        "outputId": "5bd02766-94f5-436d-b7e7-70f222dcd86c"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "5\n",
+            "1 2 1 3 3\n",
+            "Average: 2.0\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Rotate array elements in a circular way"
+      ],
+      "metadata": {
+        "id": "-bNbx-lcncdc"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "arr = list(map(int, input().split()))\n",
+        "k = int(input())\n",
+        "\n",
+        "n = len(arr)\n",
+        "k = k % n\n",
+        "\n",
+        "result = [0] * n\n",
+        "\n",
+        "for i in range(n):\n",
+        "    result[(i + k) % n] = arr[i]\n",
+        "\n",
+        "print(result)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "HCArEBfsncu9",
+        "outputId": "65e62110-5735-4951-9c3e-e5be719cc427"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "1 2 3 4 5\n",
+            "2\n",
+            "[4, 5, 1, 2, 3]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "arr = list(map(int, input().split()))\n",
+        "k = int(input())\n",
+        "\n",
+        "k = k % len(arr)\n",
+        "print(arr[-k:] + arr[:-k])"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "BVwK19eMsBsP",
+        "outputId": "ee8ec97c-f7aa-4922-e19e-4b7ae9a85512"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "1 2 3 4 5 \n",
+            "2\n",
+            "[4, 5, 1, 2, 3]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "What Is Equilibrium Index?\n",
+        "\n",
+        "👉 An index where:\n",
+        "\n",
+        "Sum of elements on left = Sum of elements on right"
+      ],
+      "metadata": {
+        "id": "IUDGAAaIndWu"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "arr = list(map(int, input().split()))\n",
+        "\n",
+        "total = sum(arr)\n",
+        "left_sum = 0\n",
+        "\n",
+        "for i in range(len(arr)):\n",
+        "    right_sum = total - left_sum - arr[i]\n",
+        "\n",
+        "    if left_sum == right_sum:\n",
+        "        print(\"Equilibrium index:\", i)\n",
+        "        break\n",
+        "\n",
+        "    left_sum += arr[i]\n",
+        "else:\n",
+        "    print(\"No equilibrium index found\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "WaXUBp0cndxv",
+        "outputId": "ebfd45aa-be6b-49c8-8ea4-1d1dbc9edb05"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "1 2 3 4 3 2 1\n",
+            "Equilibrium index: 3\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "frequency map problem\n",
+        "Find elements that appear only once (non-repeating)"
+      ],
+      "metadata": {
+        "id": "mkBiHr6TnfVt"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "arr = list(map(int, input().split()))\n",
+        "\n",
+        "freq = {}\n",
+        "\n",
+        "for x in arr:\n",
+        "    freq[x] = freq.get(x, 0) + 1\n",
+        "\n",
+        "print(\"Non-repeating elements:\")\n",
+        "for x in freq:\n",
+        "    if freq[x] == 1:\n",
+        "        print(x, end=\" \")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "iK6h-UdfnKgt",
+        "outputId": "9ee7d8d3-5011-4112-aca2-d55e0b492dd7"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "1 2 3 2 3\n",
+            "Non-repeating elements:\n",
+            "1 "
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from collections import Counter\n",
+        "\n",
+        "arr = list(map(int, input().split()))\n",
+        "freq = Counter(arr)\n",
+        "\n",
+        "print([x for x in freq if freq[x] == 1])"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "1DQcEIzkE8yg",
+        "outputId": "d851e049-413c-4ed8-9a37-a50679d3b6bc"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "1 2 3 4 2 4\n",
+            "[1, 3]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Print elements that appear more than once"
+      ],
+      "metadata": {
+        "id": "6nFMttN5FgLK"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "arr = list(map(int, input().split()))\n",
+        "\n",
+        "freq = {}\n",
+        "\n",
+        "for x in arr:\n",
+        "    freq[x] = freq.get(x, 0) + 1\n",
+        "\n",
+        "print(\"Repeating elements:\")\n",
+        "for x in freq:\n",
+        "    if freq[x] > 1:\n",
+        "        print(x, end=\" \")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "dY8L170cFgku",
+        "outputId": "071aab9b-38dc-4a4b-c1b2-6198f48bf5b2"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "1 2 3 1 2\n",
+            "Repeating elements:\n",
+            "1 2 "
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from collections import Counter\n",
+        "\n",
+        "arr = list(map(int, input().split()))\n",
+        "freq = Counter(arr)\n",
+        "\n",
+        "print([x for x in freq if freq[x] > 1])"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "EB_MVQ92F3UM",
+        "outputId": "5d67f6bb-61fe-49ea-f280-6a6b4f605baa"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "1 2 3 1 2\n",
+            "[1, 2]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Print frequency (count) of each element"
+      ],
+      "metadata": {
+        "id": "kvmlMWqdFg6N"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "arr = list(map(int, input().split()))\n",
+        "\n",
+        "freq = {}\n",
+        "\n",
+        "for x in arr:\n",
+        "    freq[x] = freq.get(x, 0) + 1\n",
+        "\n",
+        "for k in freq:\n",
+        "    print(f\"{k} → {freq[k]}\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "WzhzhzM9FhLm",
+        "outputId": "945718e3-d3ec-4769-bd73-1118d6c50224"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "1 1 2 3 4 2 3 4 2 3\n",
+            "1 → 2\n",
+            "2 → 3\n",
+            "3 → 3\n",
+            "4 → 2\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "EdyUlMOsFhcz"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "H0H36dFAFhtF"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "8VHgRCFEFh9j"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "se7BbA1DFiNm"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "eIutzyzvFig6"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "ouxvGFjiFiw6"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "BoqyORqmFjGc"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "HNsEgE-wFjZc"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "1ehugKhvFjqH"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "t8WNpbGcFj6r"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "eZ2FoI9UFkMA"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "oWVucmT_Fkdx"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "dDdUO_4HFktf"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "1x5ZH8ieFk9a"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "OY_yBBPgFlN3"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "hZXnukIWFleT"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "ZB1YOJAmFmN4"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "li3N3XKqFmo6"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "ddZCEVffFnok"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "qymhkdLoFIXS"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
